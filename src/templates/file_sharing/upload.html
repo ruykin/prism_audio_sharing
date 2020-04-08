@@ -1,11 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
-  </form>
+<div class="row" style="margin-top:10%">
+    <div class="col s4 offset-s4 center-align">
+        <h2>Upload Your Music</h2>
+        <form method="post" enctype="multipart/form-data" style="margin-top:30%">
+            {% csrf_token %}
+            <div class="file-field input-field">
+                <div class="btn black">
+                    {{ form.as_p }}
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light black"  type="submit">Upload <i class="material-icons right">send</i></button>
+          <p><a href="{% url 'home' %}">Return to home</a></p>
+        </form>
+    </div>
+</div>
 
-  <p><a href="{% url 'home' %}">Return to home</a></p>
+
 {% endblock %}

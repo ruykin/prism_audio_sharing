@@ -11,6 +11,9 @@ channels = "*"
 channels-redis = "*"
 django-postman = "*"
 django-messages = "*"
+scipy = "*"
+numpy = "*"
+librosa = "*"
 
 [requires]
 python_version = "3.7"

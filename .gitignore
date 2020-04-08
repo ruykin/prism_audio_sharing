@@ -130,3 +130,5 @@ dmypy.json
 
 # Pycharm
 .idea/
+/src/media/documents/
+/src/media/temp/

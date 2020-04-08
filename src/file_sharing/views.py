@@ -1,10 +1,12 @@
+from os import path, access, R_OK
 from django.core import serializers
-from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import redirect, render
+from scipy.io.wavfile import read, write
+from numpy import array, int16, max, abs, float_, sin, arcsin
 
-from .forms import UploadedAudioForm
+from .forms import UploadedAudioForm, UploadedAudio
 
 
 def friends(request):
@@ -16,11 +18,23 @@ def friends(request):
 def upload(request):
     if request.method == 'POST':
         form = UploadedAudioForm(request.POST, request.FILES)
-        print(form)
+
         if form.is_valid():
             obj = form.save(commit=False)
             obj.user = request.user
             obj.save()
+
+            saved_object = UploadedAudio.objects.get(id=obj.id)
+            file_path = saved_object.document
+            head, tail = path.split(str(file_path))
+            sample_rate, data = read(file_path)
+            d = []
+            for i in data:
+                d.append([i[0], i[1]])
+            d = array(d)
+            for i in d:
+                i += 100000000000
+            write('media/documents/'+tail, sample_rate, d)
             return redirect('home')
     else:
         form = UploadedAudioForm()
