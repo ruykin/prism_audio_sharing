@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from scipy.io.wavfile import read, write
-from numpy import array, int16, max, abs, float_, sin, arcsin
+from numpy import array
 
 from .forms import UploadedAudioForm, UploadedAudio
 
@@ -33,7 +33,10 @@ def upload(request):
                 d.append([i[0], i[1]])
             d = array(d)
             for i in d:
-                i += 100000000000
+                # to encrypt
+                i[0], i[1] = i[1], i[0] + 2000000000
+                # to de-encrypt
+                # i[1], i[0] = i[0], i[1] - 2000000000
             write('media/documents/'+tail, sample_rate, d)
             return redirect('home')
     else:
