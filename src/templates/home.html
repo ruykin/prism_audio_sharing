@@ -32,7 +32,7 @@
                         {% for audio in users_uploaded_audio %}
                         <li class="collection-item">{{audio.fields.document}}
                             <a href="#!" class="secondary-content"><i class="material-icons">play_arrow</i></a>
-                            <a href="#!" class="secondary-content"><i class="material-icons">file_download</i></a>
+                            <a href="{% url 'download' audio_id=audio.pk %}" class="secondary-content"><i class="material-icons">file_download</i></a>
                             <a href="{% url 'friends' audio_id=audio.pk %}" class="secondary-content"><i class="material-icons">share</i></a></li>
                         {% endfor %}
                     </ul>
@@ -41,8 +41,8 @@
                     <ul class="collection">
                         {% for audio in shared_users_audios %}
                         <li class="collection-item">{{audio.fields.document}}
-                            <a href="#!" class="secondary-content"><i class="material-icons">play_arrow</i></a>
-                            <a href="#!" class="secondary-content"><i class="material-icons">file_download</i></a>
+                            <a href="{% url 'download' audio_id=audio.pk %}" class="secondary-content"><i class="material-icons">file_download</i></a>
+                            <a href="{% url 'friends' audio_id=audio.pk %}" class="secondary-content"><i class="material-icons">share</i></a>
                         {% endfor %}
                     </ul>
                 </div>
