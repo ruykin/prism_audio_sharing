@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row" style="margin-top:10%">
+    <div class="col s4 offset-s4">
+        <h2 class="center-align">Your Friends</h2>
+        <ul class="collection">
+        {% for friend in data %}
+        <li class="collection-item">{{friend.fields.username}}
+            <a href="{% url 'share' audio_id=audio user_id=friend.pk %}" class="secondary-content"><i class="material-icons">forward</i></a>
+        </li>
+
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+{% endblock %}

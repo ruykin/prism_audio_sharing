@@ -1,5 +1,5 @@
 from django import forms
-from .models import UploadedAudio
+from .models import UploadedAudio, SharedFiles
 
 
 class UploadedAudioForm(forms.ModelForm):

@@ -4,7 +4,7 @@ from django.core import serializers
 from django.db.models import Q
 from django.http import HttpResponse
 from django.views.generic import TemplateView
-from file_sharing.models import UploadedAudio
+from file_sharing.models import UploadedAudio, SharedFiles
 import json
 
 from scipy.io.wavfile import read, write
@@ -17,8 +17,16 @@ class HomeView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         users_uploaded_audio = UploadedAudio.objects.filter(user=self.request.user)
         users_uploaded_audio = json.loads(serializers.serialize('json', list(users_uploaded_audio)))
+        shared_users_audio = SharedFiles.objects.filter(shared_to=self.request.user)
+        shared_users_audios = []  # json.loads(serializers.serialize('json', list(shared_users_audio)))
+        for i in shared_users_audio:
+            a = UploadedAudio.objects.filter(id=i.uploaded_audio.id)
+            a = json.loads(serializers.serialize('json', list(a)))
+            shared_users_audios += a
         context = locals()
         context['users_uploaded_audio'] = users_uploaded_audio
+        context['shared_users_audios'] = shared_users_audios
+        print(context)
         return context
 
 

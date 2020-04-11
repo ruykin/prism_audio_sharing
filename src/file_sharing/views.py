@@ -1,18 +1,30 @@
 from os import path, access, R_OK
 from django.core import serializers
 from django.contrib.auth.models import User
+import json
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from scipy.io.wavfile import read, write
 from numpy import array
 
-from .forms import UploadedAudioForm, UploadedAudio
+from .forms import UploadedAudioForm, UploadedAudio, SharedFiles
 
 
-def friends(request):
-    users = User.objects.filter(~Q(username='admin'))
-    data = serializers.serialize('json', list(users), fields=('username',))
-    return data
+def friends(request, *args, **kwargs):
+    users = User.objects.filter(~Q(id=request.user.id))
+    data = serializers.serialize('json', list(users), fields=('id', 'username',))
+    return render(request, 'file_sharing/friends.html', {
+        'data': json.loads(data),
+        'audio': kwargs['audio_id']
+    })
+
+
+def share(request, *args, **kwargs):
+    share_by = request.user
+    uploaded_audio = UploadedAudio.objects.get(id=kwargs['audio_id'])
+    share_to = User.objects.get(id=kwargs['user_id'])
+    SharedFiles.objects.create(shared_by=share_by, shared_to=share_to, uploaded_audio=uploaded_audio)
+    return redirect('home')
 
 
 def upload(request):

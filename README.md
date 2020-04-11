@@ -18,7 +18,7 @@ World Music Hackathon submission: Secure audio sharing to control piracy.
   
 - Run Migrations.
   ```bash
-  python manage.py makemigrations && python manage.py migration
+  python manage.py makemigrations && python manage.py migrate
   ```
 
 - Crete Superuser
@@ -30,3 +30,7 @@ World Music Hackathon submission: Secure audio sharing to control piracy.
   ```bash
   python manage.py runserver
   ```
+  
+## How to use
+- Access admin panel to add users.
+    `http://127.0.0.1:8000/admin/`
